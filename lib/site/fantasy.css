@@ -1,0 +1,29 @@
+.body_strong {
+  background-color:#D6DBF7 !important;
+}
+
+.h1_strong h1 {
+  color: black;
+}
+
+.container h2 {
+    color: black;
+    margin-top: 50px;
+
+}
+
+.container {
+  margin-bottom: 100px;
+}
+
+.container th {
+    color: pink;
+    background-color: black;
+
+
+}
+
+p {
+    color: blue;
+    padding: 3px;
+}

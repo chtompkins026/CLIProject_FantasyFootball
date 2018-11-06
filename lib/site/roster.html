@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title class="title_strong">Fantasy Pros Roster Updater</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="fantasy_backend.js"></script>
+      
+      <link rel="stylesheet" href="fantasy.css">
+  </head>
+      <style>
+      .jumbotron {
+          background-color: #f4511e; /* Orange */
+          color: #ffffff;
+      }
+    </style>
+  <body class="body_strong">
+
+    <div class="jumbotron">
+      <h1>Welcome to the Fantasy Football Weekly Predictor</h1>
+      <p>Add and delete players to your watch list to get an accurate prediction of their scores</p>
+    </div>
+
+        <form action="/action_page.php">
+        First name:<br>
+        <input type="text" name="firstname">
+        <br>
+        Last name:<br>
+        <input type="text" name="lastname">
+        <br>
+        Position:<br>
+        <input type="text" name="lastname">
+        <br><br>
+
+          <div class="btn-group btn-group-xs">
+            <button type="button" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-primary">Delete</button>
+            <button type="button" class="btn btn-primary">Reset</button>
+          </div>
+
+        </form>
+
+        <div class="container">
+          <h2>Chris Tompkins Fantasy Football Lineup</h2>
+          <p>See your projected points for this week:</p>
+          <table class="table table-hover players">
+            <thead>
+              <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Position</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td> Kirk</td>
+                <td> Cousins</td>
+                <td> QB</td>
+              </tr>
+              <tr>
+                <td> Melvin</td>
+                <td> Gordon</td>
+                <td> RB</td>
+              </tr>
+              <tr>
+                <td> James</td>
+                <td> Conner</td>
+                <td> RB</td>
+              </tr>
+              <tr>
+                <td> Mark</td>
+                <td> Ingram</td>
+                <td> RB </td>
+              </tr>
+              <tr>
+                <td> Adam </td>
+                <td> Thielen</td>
+                <td> WR </td>
+              </tr>
+              <tr>
+                <td> Julio </td>
+                <td> Jones </td>
+                <td> WR </td>
+              </tr>
+              <tr>
+                <td> Greg </td>
+                <td> Olsen </td>
+                <td> TE </td>
+              </tr>
+              <tr>
+                <td> Dan </td>
+                <td> Bailey </td>
+                <td> K </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+        </body>
+        </html>
