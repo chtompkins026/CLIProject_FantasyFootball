@@ -1,3 +1,13 @@
+require "open-uri"
+require "nokogiri"
+require 'byebug'
+
 class Rank
 
-end 
+  @@RANK = []
+  
+  def initialize()
+
+  end
+
+end
