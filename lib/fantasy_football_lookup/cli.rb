@@ -46,6 +46,7 @@ module FantasyFootball
       check_out
     end
 
+
     def check_out
       puts "=" * 80
       puts "Do you want to continue? y || n"

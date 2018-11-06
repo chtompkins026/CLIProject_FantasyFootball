@@ -5,9 +5,9 @@ require 'byebug'
 class Rank
 
   @@RANK = []
-  
-  def initialize()
 
+  def initialize()
+    
   end
 
 end
