@@ -1,47 +1,101 @@
 require 'open-uri'
 require 'pry'
 
-attr_accessor :players
-
 class Scraper
-@@ALL = [["|Name|","|Pos|","|Team|", "|Opp|"],[" ", " ", " "," "]]
-@@IDS = ["data-name","data-position","data-team","data-opp"]
+  @@ALL = [["|Name|","|Pos|","|Team|", "|Opp|"],[" ", " ", " "," "]]
+  @@IDS = ["data-name","data-position","data-team","data-opp"]
 
+   def self.player_ranker(link) #pulls in the rankings of each player
+      doc = Nokogiri::HTML(open(link))
 
-  def self.scrape_index_page(player_link) #pulls the ranking of each player
-    doc = Nokogiri::HTML(open(@link))
-    players = doc.css('.player-row')
-
-      players.each_with_index do |player, index|
-        @@ALL << []
-        @@IDS.each do |id|
-          @@ALL[index + 2] << player.css("input").attribute("#{id}").text
-        end
-      end
-
-    show_all
-    end
-  end #scrape_index_page
-
-  def self.player_description(name = nil) #returns the player description
-    if name.nil?
-
-      doc = Nokogiri::HTML(open(@link))
       players = doc.css('.player-row')
 
-      puts "Pick a name to get a description: "
-      name = gets.chomp
-      player_link = players.detect do |p|
-        p.css("a").attribute("href").value.include? name.downcase.gsub(" ","-")
-      end
-      doc = Nokogiri::HTML(open("https://www.fantasypros.com/nfl/players/" + player_link.css("a").attribute("href")))
-    else
-      name = name.gsub(" ", "-").downcase
-      doc = Nokogiri::HTML(open("https://www.fantasypros.com/nfl/players/#{name}.php"))
+      # @@ALL = [["|Name|","|Pos|","|Team|", "|Opp|"],[" ", " ", " "," "]]
+
+        players.each_with_index do |player, index|
+          @@ALL << []
+          @@IDS.each do |id|
+            @@ALL[index + 2] << player.css("input").attribute("#{id}").text
+          end
+        end
+        show_all
     end
 
-    return display_ranking(doc)
-  end
 
+    def self.show_all
+      @@ALL.each_index do |idx|
+        var = @@ALL[idx].join(" - ")
+          if idx < 2
+            puts var
+          else
+            puts  "#{idx - 1}. #{var}"
+          end
+      end
+    end
+
+    def self.player_description(link=nil,player = nil) #returns the player description
+      if player.nil?
+
+        doc = Nokogiri::HTML(open(link))
+        players = doc.css('.player-row')
+
+        puts "Pick a name to get a description: "
+        name = gets.chomp
+        player_link = players.detect do |p|
+          p.css("a").attribute("href").value.include? name.downcase.gsub(" ","-")
+        end
+        doc = Nokogiri::HTML(open("https://www.fantasypros.com/nfl/players/" + player_link.css("a").attribute("href")))
+      else
+        name = player.name if player.is_a? Player
+        name = name.gsub(" ", "-").downcase
+        doc = Nokogiri::HTML(open("https://www.fantasypros.com/nfl/players/#{name}.php"))
+      end
+
+      return display_ranking(doc,player)
+    end
+
+
+
+
+    def self.ranker(doc)
+      answer = []
+      doc.search('.pull-right').each_with_index do |word, idx|
+        if idx == 8 || idx == 9
+          answer.push("#{word.text} ")
+        end
+      end
+      answer
+    end
+
+    def self.setPlayerScoreRank(player,game,rank)
+      if player
+        player.score = rank
+        player.team = game
+
+        puts " "
+        puts player.name
+      end
+    end
+
+
+    def self.display_ranking(doc,player=nil)
+      ranking = ranker(doc)
+
+
+      notes = doc.css('.content').first.css("p").text
+      game = doc.css('.next-game').text.strip.split.join(" ")
+
+      setPlayerScoreRank(player,game,ranking[1])
+
+
+      puts " "
+      puts ranking.join(" | ")
+      puts " "
+      puts notes
+      puts " "
+      puts game
+
+      return ranking[1].gsub(/[a-zA-Z]*/,"").strip.to_f
+    end
 
 end #end of the Scraper Class

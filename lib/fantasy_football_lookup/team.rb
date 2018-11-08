@@ -5,8 +5,7 @@ require 'byebug'
 module FantasyFootball
 
   class Team
-      @@ALL = []
-
+      @@PLAYERS = []
 
       def self.read_file
         doc = Nokogiri::HTML(open("./lib/site/roster.html"))
@@ -14,24 +13,30 @@ module FantasyFootball
         table_body = players.css("tbody td")
 
         table_body.each_slice(3) do |slice|
-          @@ALL << slice[0].text.strip+ " "+ slice[1].text.strip
-        end
+          player = Player.new(slice[0].text.strip+ " " + slice[1].text.strip, slice[2].text.strip)
+          @@PLAYERS << player unless @@PLAYERS.include?(player)
+         end
+      end
 
+      def self.look_up_player()
+        puts "Enter a name: "
+        name = gets.chomp.strip
+        player = @@PLAYERS.detect {|p| p.name == name }
+        if player
+          puts player.to_s
+        else
+          puts "Can't find this player on your team, try again."
+        end
+        puts "=" * 80
       end
 
       def initialize()
         Team.read_file
-        cli = FantasyFootball::CLI.new
         score = 0.0
-        @@ALL.each do |name|
-          score += cli.player_description(name)
+        @@PLAYERS.each do |player|
+          score += Scraper.player_description(nil,player)
         end
         puts "YOUR TEAM'S PROJECTED SCORE: #{score.round(2)}"
-      end
-
-
-      def self.all #class variable
-        @@ALL
       end
 
 
