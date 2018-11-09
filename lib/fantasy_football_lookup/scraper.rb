@@ -57,7 +57,7 @@ class Scraper
 
 
 
-    def self.ranker(doc)
+    def self.ranker(doc) #pulls just the player ranking for said position and his projected points 
       answer = []
       doc.search('.pull-right').each_with_index do |word, idx|
         if idx == 8 || idx == 9
