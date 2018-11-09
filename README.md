@@ -71,7 +71,14 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
  - This class is responsible for scraping all the data you see displayed in the CLI and responsible for storing the data which is later used in the Team and Player class to import and create stored players that can be called later on by the user. The class includes several class methods responsible for all the data that comes from fantasypros.com. The class methods include: player_ranker, show_all, player_description, ranker, setPlayerScoreRank, display_ranking.
 
  # Team Class
- - This class is responsible for going through the roster.html file that lives within the site folder. Upon initialization, it runs through the file and pulls in each player listed in the table. The Team Class is designed to run through the table and store each player in the Player array. This array will then be used by the Player class to create Player objects, which the CLI user can use later (option 7) to see specific information for a player on his/her team. The class includes the following methods: self.read_file, self.look_up_player(), and initialize(). 
+ - This class is responsible for going through the roster.html file that lives within the site folder. Upon initialization, it runs through the file and pulls in each player listed in the table. The Team Class is designed to run through the table and store each player in the Player array. This array will then be used by the Player class to create Player objects, which the CLI user can use later (option 7) to see specific information for a player on his/her team. The class includes the following methods: self.read_file, self.look_up_player(), and initialize().
+
+ #Player Class
+ - This class is responsible for actually taking in the Player array in Team class to create actual player objects who can then be called on when users want to see specific information for one of the players on his/her roster. The class includes the following methods: initialize, ==(obj), and to_s.
+
+
+ # Roster.html
+ - This is obviously not a class, but an HTML page that stores the players on the users team. The Team class interacts with this page to scrape the data provided in the table to create and store the users roster. 
 
 ## Contributing
 
