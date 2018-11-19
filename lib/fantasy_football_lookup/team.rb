@@ -5,7 +5,9 @@ require 'byebug'
 module FantasyFootball
 
   class Team
-      @@PLAYERS = []
+      @@PLAYERS = [] #class variable
+
+      #Team stores an array of players. It also prevents from duplicate players from being added
 
       def self.read_file
         doc = Nokogiri::HTML(open("./lib/site/roster.html"))
@@ -14,6 +16,7 @@ module FantasyFootball
 
         table_body.each_slice(3) do |slice|
           player = Player.new(slice[0].text.strip+ " " + slice[1].text.strip, slice[2].text.strip)
+          #each slice is the team, name, and score First Name, Last Name, and Score. Creating the player objects
           @@PLAYERS << player unless @@PLAYERS.include?(player)
          end
       end
@@ -39,6 +42,9 @@ module FantasyFootball
         puts "YOUR TEAM'S PROJECTED SCORE: #{score.round(2)}"
       end
 
+      def self.players
+        @@PLAYERS
+      end
 
   end #end of the Class
 end #end of the Module

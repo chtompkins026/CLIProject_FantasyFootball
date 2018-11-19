@@ -5,6 +5,8 @@ require 'byebug'
 module FantasyFootball
   class CLI
     @@POSITIONS = ["rb", "qb", "wr","te","flex","k"]
+    #our menu is flexible because it is tied to the @@Positions array. If we wanted to add something in, then we just add it in
+    #Everything with the CLI deals with input and output. Jumps to other classes for everything else
 
     attr_reader :selected, :ranker
 
@@ -44,7 +46,7 @@ module FantasyFootball
     def run_loop #runs through all the positions that we have
       pos = select_position
       Scraper.player_ranker(@link) if pos
-      Scraper.player_description(@link) if pos
+      Scraper.player_description(@link) if pos   #nil on this line because we are looking at all the players. Don't know who to look up yet
       check_out
     end
 
