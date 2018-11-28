@@ -5,19 +5,32 @@ require 'byebug'
 
 class Player
 
-    attr_accessor :name, :score, :team, :position
+    attr_accessor :name, :score, :team, :position, :link, :description
+    @@all = []
 
     # Initialize the position and the name of the player.
-    def initialize(name, position=nil)
+    def initialize(name, position=nil, team=nil, link=nil)
       @name = name
       @position = position
+      @team = team
+      @link = link
+
+      return if @@all.any? {|player_name| checker(player_name)} #stop from scraping again
+
+      unless link.nil?
+        player_name = name.gsub(" ", "-").downcase
+        doc = Nokogiri::HTML(open(@link))
+        @description = doc.css('.content').first.css("p").text
+      end
+
+      @@all << self unless @@all.any? {|player_name| checker(player_name)}
     end
 
     # Players are considered == if they have the same names test
     # the weeks or score my be different as the seasons continues.
-    def ==(obj)
+    def checker(obj)
         #puts "#{@name} == #{obj.name}"
-    	return false if @name.downcase != obj.name.downcase
+    	return false if @name.downcase != obj.name.downcase || @position != obj.position
     	return true
     end
 
@@ -25,6 +38,10 @@ class Player
     #    of the player per every object
     def to_s
         "Name: #{@name}\nScore: #{@score}\nPosition: #{@position}\nWeek: #{team}\n"
+    end
+
+    def self.all
+      @@all
     end
 
 end #end of the Class
