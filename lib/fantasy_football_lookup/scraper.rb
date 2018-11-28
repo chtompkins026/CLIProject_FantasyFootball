@@ -7,7 +7,7 @@ class Scraper
   @@id = ["data-name","data-position","data-team","data-opp"].freeze
   #idS - flexible, so thats if we wanted to pull in more data we would add this in the array
 
-   def self.player_ranker(link) #pulls in the rankings of each player
+   def self.player_ranker(link) #pulls in the original rankings of each player
       doc = Nokogiri::HTML(open(link))
 
       players = doc.css('.player-row')

@@ -23,7 +23,7 @@ module FantasyFootball
       end
 
       def self.look_up_player()
-        puts "Enter a name: "
+        puts "Enter the player's name: "
         name = gets.chomp.strip
         player = @@players.detect {|p| p.name == name }
         if player

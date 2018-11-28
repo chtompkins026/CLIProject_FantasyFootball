@@ -33,7 +33,7 @@ module FantasyFootball
       return true
     end
 
-    def menu
+    def menu  #this will open up what you see
       puts "MENU"
       puts "=" * 80
       POSITIONS.each_with_index do |pos, index|
@@ -41,7 +41,7 @@ module FantasyFootball
       end
       puts "#{POSITIONS.count} import your team"
 
-      puts "#{POSITIONS.count+1} look up player"
+      puts "#{POSITIONS.count+1} look up player on your team"
       puts "=" * 80
     end
 
