@@ -12,7 +12,7 @@ module FantasyFootball
 
     def select_position
       menu
-      puts "Select a position to view the rankings of: "
+      puts "Select a number to view the following rankings: "
       begin
         @selected = Integer(gets.chomp)
         raise if @selected < 0 || @selected > 8

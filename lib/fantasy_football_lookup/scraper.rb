@@ -3,7 +3,7 @@ require 'pry'
 require 'byebug'
 
 class Scraper
-  @@all = [["|Name|","|Pos|","|Team|", "|Opp|"],[" ", " ", " "," "]] #added this for visual sake so you could see the columns
+  @@all = [["|Rank|","|Name|","|Pos|","|Team|", "|Opp|"],[" "," ", " ", " "," "]] #added this for visual sake so you could see the columns
   @@id = ["data-name","data-position","data-team","data-opp"].freeze
   #idS - flexible, so thats if we wanted to pull in more data we would add this in the array
 
