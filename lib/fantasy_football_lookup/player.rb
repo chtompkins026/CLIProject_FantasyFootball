@@ -37,7 +37,7 @@ class Player
     #    Override the to string method to print out the strig representation
     #    of the player per every object
     def overview
-        puts ""
+        puts " "
         "Name: #{@name}\nProjected Score: #{@score}\nPosition: #{@position}\nWeek: #{team}\n"
     end
 
