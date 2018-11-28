@@ -43,6 +43,7 @@ class Player
     def self.look_up_player()
       puts "Enter the player's name you want to look up: "
       name = gets.chomp.strip.downcase
+
       begin
         player = @@all.detect {|p| p.name.downcase == name.downcase }
           raise if player.nil?
