@@ -45,13 +45,14 @@ class Scraper
           doc = Nokogiri::HTML(open(link))
           players = doc.css('.player-row')
 
-          players.each do |play|
-            name = play.css("input").attribute("data-name").text
-            position = play.css("input").attribute("data-position").text
-            team = play.css("input").attribute("data-team").text
-            link = "https://www.fantasypros.com/nfl/players/" + play.css("a").attribute("href")
-            Player.new(name, position, team, link)
-          end
+            players.each do |play|
+              name = play.css("input").attribute("data-name").text
+              position = play.css("input").attribute("data-position").text
+              team = play.css("input").attribute("data-team").text
+              opp = play.css("input").attribute("data-opp").text
+              link = "https://www.fantasypros.com/nfl/players/" + play.css("a").attribute("href")
+              Player.new(name, position, team, opp, link)
+            end
 
           begin
             puts "Pick the ranking of the player to get a description: "

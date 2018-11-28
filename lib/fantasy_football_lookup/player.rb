@@ -38,7 +38,7 @@ class Player
     #    of the player per every object
     def overview
         puts " "
-        "Name: #{@name}\nProjected Score: #{@score}\nPosition: #{@position}\nWeek: #{team}\n"
+        "Name: #{@name}\nProjected Score: #{@score}\nPosition: #{@position}\nWeek: #{@team}\n"
     end
 
     def self.look_up_player()
