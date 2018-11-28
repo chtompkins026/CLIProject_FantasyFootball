@@ -39,12 +39,17 @@ module FantasyFootball
     def menu  #this will open up what you see
       puts "MENU"
       puts "=" * 80
+
       POSITIONS.each_with_index do |pos, index|
         puts "#{index} #{pos}"
       end
+
       puts "#{POSITIONS.count} import your team"
 
       puts "#{POSITIONS.count+1} look up player on your team"
+
+      puts "#{POSITIONS.count+2} look up any player on site rankings"
+
       puts "=" * 80
     end
 
@@ -73,14 +78,16 @@ module FantasyFootball
       puts "=" * 80
       puts "=" * 80
       puts "Please note the following when using this dashboard:\n"
-      puts "You can look at any positional ranking by selecting options 1-5\n"
-      puts "Note, when you select any of the options 1-5, the player is saved to our database\n"
-      puts "Once saved, you can lookup that player again using option 8! All you have to do is type the player's name\n"
-      puts "If you would like to import your personal fantasy team, please select 6\n"
-      puts "Please note, you must select 6 before using option 7 (look up a player on your team)\n"
-      puts "You can use option 8, once you have imported a positional ranking when using 1-5"
+      puts " 1) You can look at any positional ranking by selecting options 1-5\n"
+      puts " 2) Note, when you select any of the options 1-5, the player is saved to our database\n"
+      puts " 3) Once saved, you can lookup that player again using option 8! All you have to do is type the player's name\n"
+      puts " 4) If you would like to import your personal fantasy team, please select 6\n"
+      puts " 5) Please note, you must select 6 before using option 7 (look up a player on your team)\n"
+      puts " 6) You can use option 8, once you have imported a positional ranking when using 1-5\n"
+      puts " "
       puts "We hope you find this helpful!"
-      
+      puts " "
+
       while true
         run_loop
       end

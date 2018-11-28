@@ -37,19 +37,18 @@ class Player
     #    Override the to string method to print out the strig representation
     #    of the player per every object
     def overview
-        "Name: #{@name}\nScore: #{@score}\nPosition: #{@position}\nWeek: #{team}\n"
+        "Name: #{@name}\n Projected Score: #{@score}\nPosition: #{@position}\nWeek: #{team}\n"
     end
 
     def self.look_up_player()
+      begin
       puts "Enter the player's name you want to look up: "
       name = gets.chomp.strip.downcase
-
-      begin
-        player = @@all.detect {|p| p.name.downcase == name.downcase }
-          raise if player.nil?
-        recue Exception => e
-          puts "Can't find this player, try again."
-          retry
+      player = @@all.detect {|p| p.name.downcase == name.downcase }
+        raise unless player
+      rescue Exception => e
+        puts "Can't find this player, try again."
+        retry
       end
 
       puts player.overview
