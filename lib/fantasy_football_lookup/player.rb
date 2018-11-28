@@ -5,7 +5,7 @@ require 'byebug'
 
 class Player
 
-    attr_accessor :name, :score, :team, :position, :link, :description, :opp
+    attr_accessor :name, :score, :team, :position, :link, :description, :opp, :posranking
     @@all = []
 
     # Initialize the position and the name of the player.
@@ -22,7 +22,8 @@ class Player
         player_name = name.gsub(" ", "-").downcase
         doc = Nokogiri::HTML(open(@link))
         @description = doc.css('.content').first.css("p").text
-        @score = ranker(doc)
+        @posranking = ranker(doc)[0]
+        @score = ranker(doc)[1]
       end
 
       @@all << self unless @@all.any? {|player_name| checker(player_name)}
@@ -52,7 +53,8 @@ class Player
     #    of the player per every object
     def overview
         puts " "
-        "Name: #{@name}\nProjected Score: #{@score}\nPosition: #{@position}\nTeam: #{@team}\nDescription: #{@description}"
+        puts "Name: #{@name}\nPosition Ranking: #{posranking}\nProjected Score: #{@score}\nPosition: #{@position}\nTeam: #{@team}\n"
+        puts "Description: #{@description}"
     end
 
     def self.look_up_player()
