@@ -5,15 +5,16 @@ require 'byebug'
 
 class Player
 
-    attr_accessor :name, :score, :team, :position, :link, :description
+    attr_accessor :name, :score, :team, :position, :link, :description, :opp
     @@all = []
 
     # Initialize the position and the name of the player.
-    def initialize(name, position=nil, team=nil, link=nil)
+    def initialize(name, position=nil, team=nil, opp =nil, link=nil)
       @name = name
       @position = position
       @team = team
       @link = link
+      @opp = opp
 
       return if @@all.any? {|player_name| checker(player_name)} #stop from scraping again
 
@@ -21,10 +22,23 @@ class Player
         player_name = name.gsub(" ", "-").downcase
         doc = Nokogiri::HTML(open(@link))
         @description = doc.css('.content').first.css("p").text
+        @score = ranker(doc)
       end
 
       @@all << self unless @@all.any? {|player_name| checker(player_name)}
     end
+
+
+      def ranker(doc) #pulls just the player ranking for said position and his projected points
+        answer = []
+        doc.search('.pull-right').each_with_index do |word, idx|
+          if idx == 8 || idx == 9
+            answer.push("#{word.text} ")
+          end
+        end
+        answer
+      end
+
 
     # Players are considered == if they have the same names test
     # the weeks or score my be different as the seasons continues.
@@ -38,7 +52,7 @@ class Player
     #    of the player per every object
     def overview
         puts " "
-        "Name: #{@name}\nProjected Score: #{@score}\nPosition: #{@position}\nWeek: #{@team}\n"
+        "Name: #{@name}\nProjected Score: #{@score}\nPosition: #{@position}\nTeam: #{@team}\nDescription: #{@description}"
     end
 
     def self.look_up_player()
