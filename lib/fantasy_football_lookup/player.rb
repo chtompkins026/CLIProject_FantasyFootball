@@ -37,7 +37,7 @@ class Player
     #    Override the to string method to print out the strig representation
     #    of the player per every object
     def overview
-        "Name: #{@name}\n Projected Score: #{@score}\nPosition: #{@position}\nWeek: #{team}\n"
+        "Name: #{@name}\nProjected Score: #{@score}\nPosition: #{@position}\nWeek: #{team}\n"
     end
 
     def self.look_up_player()
