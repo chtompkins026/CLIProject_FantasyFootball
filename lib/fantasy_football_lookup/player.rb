@@ -33,7 +33,7 @@ class Player
       def ranker(doc) #pulls just the player ranking for said position and his projected points
         answer = []
         doc.search('.pull-right').each_with_index do |word, idx|
-          if idx == 8 || idx == 9
+          if idx == 7 || idx == 8
             answer.push("#{word.text} ")
           end
         end
@@ -53,7 +53,7 @@ class Player
     #    of the player per every object
     def overview
         puts " "
-        puts "Name: #{@name}\nPosition Ranking: #{posranking}\nProjected Score: #{@score}\nPosition: #{@position}\nTeam: #{@team}\n"
+        puts "Name: #{@name}\nPosition Ranking: #{@posranking}\nProjected Score: #{@score}\nPosition: #{@position}\nTeam: #{@team}\n"
         puts "Description: #{@description}"
     end
 

@@ -23,7 +23,7 @@ class Scraper
         end
 
         show_all
-          @@all = [["|Name|","|Pos|","|Team|", "|Opp|"],[" ", " ", " "," "]]
+          @@all = [["|Rank|","|Name|","|Pos|","|Team|", "|Opp|"],[" "," ", " ", " "," "]  ]
     end
 
 
@@ -79,7 +79,7 @@ class Scraper
     def self.ranker(doc) #pulls just the player ranking for said position and his projected points
       answer = []
       doc.search('.pull-right').each_with_index do |word, idx|
-        if idx == 8 || idx == 9
+        if idx == 7 || idx == 8
           answer.push("#{word.text} ")
         end
       end
