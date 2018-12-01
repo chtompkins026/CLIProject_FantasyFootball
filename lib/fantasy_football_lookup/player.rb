@@ -58,18 +58,34 @@ class Player
     end
 
     def self.look_up_player()
+      self.print_players
+
       begin
-      puts "Enter the player's name you want to look up: "
-      name = gets.chomp.strip.downcase
-      player = @@all.detect {|p| p.name.downcase == name.downcase }
-        raise unless player
-      rescue Exception => e
-        puts "Can't find this player, try again."
-        retry
+        puts "Enter the player's index to see his stats: "
+        p_index = gets.chomp.to_i
+
+        raise IndexError if p_index <= 0 || p_index >= @@all.size
+          rescue IndexError => ie
+          puts "Please select a correct index!"
+          retry
       end
 
-      puts player.overview
-      puts "=" * 80
+      begin
+        player = @@all[p_index-1]
+        raise unless player
+          rescue Exception => e
+          puts "Can't find this player on your team, try again."
+          retry
+      end
+
+        player.overview
+    end
+
+
+    def print_players
+      @@all.each_with_index do |player, index|
+        puts "#{index + 1}) #{player.name} - #{player.position}"
+      end
     end
 
     def self.all

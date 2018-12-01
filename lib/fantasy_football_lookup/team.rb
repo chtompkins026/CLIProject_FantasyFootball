@@ -24,15 +24,29 @@ module FantasyFootball
 
       def self.look_up_player()
         self.print_players
+
         begin
-          puts "Enter the player's name: "
-          name = gets.chomp.strip
-          player = @@players.detect {|p| p.name == name }
-        raise unless player
-          rescue Exception => e
-          puts "Can't find this player on your team, try again."
-          retry
+          puts "Enter the player's index to see his stats: "
+          p_index = gets.chomp.to_i
+
+          raise IndexError if p_index <= 0 || p_index >= @@players.size
+            rescue IndexError => ie
+            puts "Please select a correct index!"
+            retry
         end
+
+        begin
+          player = @@players[p_index-1]
+          raise unless player
+            rescue Exception => e
+            puts "Can't find this player on your team, try again."
+            retry
+        end
+
+          player_print(player)
+      end
+
+      def self.player_print(player)
         puts " "
         puts "Player Weekly Overview"
         puts "=" * 80
