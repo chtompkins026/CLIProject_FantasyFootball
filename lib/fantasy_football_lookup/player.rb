@@ -82,7 +82,7 @@ class Player
     end
 
 
-    def print_players
+    def self.print_players
       @@all.each_with_index do |player, index|
         puts "#{index + 1}) #{player.name} - #{player.position}"
       end
