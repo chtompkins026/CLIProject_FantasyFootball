@@ -4,20 +4,29 @@ require 'byebug'
 
 module FantasyFootball
   class CLI
-    POSITIONS = ["rb", "qb", "wr","te","flex","k"]   #this is a constant
+    LOOKUP_POSITIONS = ["flex","k","qb"]   #this is a constant
+    POSITIONS = ["rb","qb","wr","te","flex","k"]
     #our menu is flexible because it is tied to the  array. If we wanted to add something in, then we just add it in
     #Everything with the CLI deals with input and output. Jumps to other classes for everything else
 
     attr_reader :selected, :ranker
 
-    def select_position
+    def send_link
+      LOOKUP_POSITIONS.each_with_index do |pos, index|
+        link = "https://www.fantasypros.com/nfl/rankings/#{LOOKUP_POSITIONS[index]}.php"
+        Scraper.create_players(link)
+      end
+    end
+
+
+    def select_option
       menu
       puts "Select a number to view the following rankings: "
       begin
         @selected = Integer(gets.chomp)
-        raise if @selected < 0 || @selected > 8
+        raise if @selected < 0 || @selected > (POSITIONS.count + 2)
       rescue Exception => e
-        puts "Try again: "
+        puts "Try again, that selection does not exist!"
         retry
       end
 
@@ -32,7 +41,7 @@ module FantasyFootball
         return false
       end
 
-      @link = "https://www.fantasypros.com/nfl/rankings/#{POSITIONS[@selected]}.php"
+      Player.ranker(@selected)
       return true
     end
 
@@ -53,11 +62,8 @@ module FantasyFootball
       puts "=" * 80
     end
 
-
     def run_loop #runs through all the positions that we have
-      pos = select_position
-      Scraper.player_ranker(@link) if pos
-      Scraper.player_description(@link) if pos   #nil on this line because we are looking at all the players. Don't know who to look up yet
+      select_option
       check_out
     end
 
@@ -72,24 +78,47 @@ module FantasyFootball
 
     def call
       puts "=" * 80
+      puts " " * 80
       puts "Hello and welcome to the Fantasy Football Ranker!\n"
       puts "Here you can quickly find where your players rank\n"
       puts "& see how the pros feel about your players matchup\n"
+      puts "We are in the process of loading all player data\n"
+      puts "We thank you for your patience!"
       puts "=" * 80
       puts "=" * 80
+      puts " " * 80
       puts "Please note the following when using this dashboard:\n"
-      puts " 1) You can look at any positional ranking by selecting options 1-5\n"
-      puts " 2) Note, when you select any of the options 1-5, the player is saved to our database\n"
-      puts " 3) Once saved, you can lookup that player again using option 8! All you have to do is type the player's name\n"
-      puts " 4) If you would like to import your personal fantasy team, please select 6\n"
-      puts " 5) Please note, you must select 6 before using option 7 (look up a player on your team)\n"
-      puts " 6) You can use option 8, once you have imported a positional ranking when using 1-5\n"
+      puts "-" * 80
+      puts " - You can look at any positional ranking by selecting options 1-5\n"
+      puts " - If you would like to import your personal fantasy team, please select 6\n"
+      puts " - Please note, you must select 6 before using option 7 (look up a player on your team)\n"
       puts " "
       puts "We hope you find this helpful!"
       puts " "
+      send_link
+
 
       while true
         run_loop
+      end
+    end
+
+
+# CLI Class Method
+
+    def self.player_description(current_list)
+      puts "Select a players ranking to view more details or enter 0 to continue"
+      begin
+        selection = Integer(gets.chomp)
+        raise if selection < 0 || selection > current_list.count
+      rescue Exception => e
+        puts "Try again, that selection does not exist!"
+        retry
+      end
+
+      unless selection == 0
+        player = current_list[selection-1]
+        puts player.overview
       end
     end
 
