@@ -1,6 +1,3 @@
-require "open-uri"
-require "nokogiri"
-require 'byebug'
 
 module FantasyFootball
   class CLI
@@ -23,25 +20,26 @@ module FantasyFootball
       menu
       puts "Select a number to view the following rankings: "
       begin
-        @selected = Integer(gets.chomp)
-        raise if @selected < 0 || @selected > (POSITIONS.count + 2)
+        selected = Integer(gets.chomp)
+        raise if selected < 0 || selected > (POSITIONS.count + 2)
       rescue Exception => e
         puts "Try again, that selection does not exist!"
         retry
       end
 
-      if @selected == POSITIONS.count
+      if selected == POSITIONS.count
         FantasyFootball::Team.new
         return false
-      elsif @selected == POSITIONS.count + 1
-        Team.look_up_player
+      elsif selected == POSITIONS.count + 1
+        look_up_player(Team.players)
+        Team.score
         return false
-      elsif  @selected == POSITIONS.count + 2
-        Player.look_up_player
+      elsif  selected == POSITIONS.count + 2
+        look_up_player
         return false
       end
 
-      Player.ranker(@selected)
+      ranker(selected)
       return true
     end
 
@@ -103,10 +101,49 @@ module FantasyFootball
       end
     end
 
+    #    Override the to string method to print out the strig representation
+    #    of the player per every object
+    def overview(player)
+        puts " "
+        puts "Name: #{player.name}\nPosition Ranking: #{player.posranking}\nProjected Score: #{player.score}\nPosition: #{player.position}\nTeam: #{player.team}\n"
+        puts "Description: #{player.description}"
+    end
 
-# CLI Class Method
+    def ranker(selected)
+      lpos = POSITIONS[selected]
+      answer = Player.find_by_position(lpos)
+      print_rankings(answer)
+    end
 
-    def self.player_description(current_list)
+    def look_up_player(array=Player.all)
+      print_rankings(array)
+    end
+
+    def print_rankings(array)
+      current_list = array.each_with_index do |player, index|
+        unless player.nil?
+          array == Team.players ? overview2(player, index) : overview1(player, index)
+        end
+      end
+
+      if array == Team.players
+        Team.score
+        player_description(current_list)
+      else
+        player_description(current_list)
+      end
+    end
+
+    def overview2(player, index)
+      puts "#{index + 1} #{player.name} - #{player.team} - #{player.score}"
+    end
+
+    def overview1(player, index)
+      puts "#{index + 1} #{player.name} - #{player.team}"
+    end
+
+
+    def player_description(current_list)
       puts "Select a players ranking to view more details or enter 0 to continue"
       begin
         selection = Integer(gets.chomp)
@@ -118,10 +155,10 @@ module FantasyFootball
 
       unless selection == 0
         player = current_list[selection-1]
-        puts player.overview
+        Scraper.add_description(player) if player.description.nil?
+        puts overview(player)
       end
     end
-
 
 
   end #end of the Class
