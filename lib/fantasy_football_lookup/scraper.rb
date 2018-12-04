@@ -20,11 +20,18 @@ class Scraper
             opp = play.css("input").attribute("data-opp").text.nil? ? "N/A" : play.css("input").attribute("data-opp").text
             nlink = "https://www.fantasypros.com/nfl/players/" + play.css("a").attribute("href")
             ndoc = Nokogiri::HTML(open(nlink))
-            description = ndoc.css('.content').first.css("p").text
-            posranking = ranker(ndoc)[0]
-            score = ranker(ndoc)[1]
-            Player.new(name, position, team, opp, nlink, description, posranking, score)
+
+            if ndoc.nil?
+              Player.new(name, position, team, opp, nlink)
+            else
+              description = (ndoc.css('.content').first.css("p").text).nil? ? "N/A" : ndoc.css('.content').first.css("p").text
+              posranking = (ranker(ndoc)[0]).nil? ? "N/A" : ranker(ndoc)[0]
+              score = (ranker(ndoc)[1]).nil? ? "N/A" : ranker(ndoc)[1]
+              Player.new(name, position, team, opp, nlink, description, posranking, score)
+            end
           end
+
+          puts "Player number #{Player.all.size} has been created!"
         end
     end
 
